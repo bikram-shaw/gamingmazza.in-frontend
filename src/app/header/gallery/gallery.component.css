@@ -1,0 +1,22 @@
+
+
+
+.image{
+    height: 200px;
+    width: 300px;
+    object-fit: cover;
+
+}
+.image:hover{
+  opacity: .6;
+  height: 210px;
+  width: 310px;
+  cursor: pointer;
+  border: 2px solid red;
+}
+.image-mo
+{
+    height: 100px;
+   width: 100%;
+    object-fit: cover;
+}

@@ -1,0 +1,60 @@
+.card-header
+{
+   background-color: white;
+    border:none;
+    padding: 0px;
+    
+}
+
+img{
+    object-fit: cover;
+}
+
+.cmt-img
+{
+    height: 40px;
+    width: 40px;
+    object-fit: cover;
+    border-radius: 100%;
+    border: 1px solid black;
+}
+.cmt-area
+{
+    width: 70%;
+    border-radius: 30px;
+    height: 40px;
+
+}
+.cmt-area:focus
+{
+    outline:none;
+    box-shadow:none;
+}
+.cmt-btn
+{
+    height: 40px;
+    width: 70px;
+    border: 2px solid rgb(44, 176, 180);
+    border-radius: 6px;
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+}
+.user-cmt
+{
+    background-color: lightgray;
+   overflow: hidden;
+   display: inline-block;
+   border-radius: 10px ;
+   padding: 5px;
+}
+.anchor
+{
+    color: blue;
+   border-radius: 20px;
+   padding: 3px;
+   cursor: pointer;
+}
+.card-body
+{
+    padding: 1px;
+}

@@ -1,0 +1,61 @@
+
+  <div class="container-fluid  desktop-nav  fixed-top ">
+      
+    <div class="row bg-nav  bord d-flex align-items-center" >
+        <div class="col-3">
+          <h1 class=" text-center  logo text-white bg-dark">GamingMazza</h1>
+        </div>
+        <div class="col-6 d-flex align-items-center">
+           <ul class="nav nav-pills  ">
+               <li class="nav-item">
+                 <a class="nav-link active" routerLink="../gamezone" routerLinkActive='active' [routerLinkActiveOptions]={exact:true}><i>Home</i></a>
+               </li>
+               <li class="nav-item">
+                 <a class="nav-link" routerLink="ongoing" routerLinkActive='active'><i>Ongoing</i></a>
+               </li>
+               <li class="nav-item">
+                 <a class="nav-link" routerLink="result" routerLinkActive='active'><i>Result</i></a>
+               </li>
+              
+             </ul>
+        </div>
+        <div class="col-3">
+           <ul class="nav nav-pills  ">
+           <li class="nav-item">
+               <a class="nav-link" routerLink="wallet" routerLinkActive='active'> <i><img class="icon" src="../assets/icon/money-bag.svg"></i></a>
+             </li>
+             <li class="nav-item">
+               <a class="nav-link"routerLink="../acc"> <i ><img class="icon" src="../assets/icon/arrow.svg"></i></a>
+             </li>
+         </ul>
+        </div>
+       
+    </div>
+ </div>
+ <!--For mobile section-->
+ <div class="container-fluid  mobile-nav  fixed-top ">
+ 
+   <div class="row bg-nav ">
+       <div class="col-12">
+         <ul class="nav nav-pills nav-justified ">
+           <li class="nav-item">
+             <a class="nav-link active" routerLinkActive='active' [routerLinkActiveOptions]={exact:true}  routerLink="../gamezone"><i ><img class="icon" src="../assets/icon/home.svg"></i></a>
+           </li>
+           <li class="nav-item">
+             <a class="nav-link"routerLink="ongoing" routerLinkActive='active'><i ><img class="icon" src="../assets/icon/clock.svg"></i></a>
+           </li>
+           <li class="nav-item">
+             <a class="nav-link"  routerLink="result" routerLinkActive='active'><i ><img class="icon" src="../assets/icon/list.svg"></i></a>
+           </li>
+           <li class="nav-item">
+             <a class="nav-link"  routerLink="wallet" routerLinkActive='active'> <i ><img class="icon" src="../assets/icon/money-bag.svg"></i></a>
+           </li>
+           <li class="nav-item">
+             <a class="nav-link"routerLink="../acc"> <i ><img class="icon" src="../assets/icon/arrow.svg"></i></a>
+           </li>
+        </ul>
+       </div>
+        
+   </div>
+</div>
+<router-outlet></router-outlet>

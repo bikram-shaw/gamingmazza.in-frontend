@@ -1,0 +1,32 @@
+.pimage{
+    height: 50px;
+    width:50px;
+    border-radius: 50%;
+    border: 2px solid rgb(15, 155, 160);
+}
+.row
+{
+    padding: 2px;
+    border-radius: 20px;
+}
+.bg-gold{
+    background-color: rgb(216, 215, 146);
+    border: 5px solid rgb(189, 177, 10);
+    
+  
+}
+.bg-darky {
+    background-color: rgb(146, 208, 216);
+    border: 5px solid rgb(15, 155, 160);
+}
+.wallet
+{
+    height: 40px;
+    width:40px;
+   
+}
+.rupee
+{
+    height: 20px;
+    width:20px;
+}

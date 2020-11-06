@@ -1,0 +1,133 @@
+<div class="container-fluid bg-dark">
+  <div class="row bg-blue  logo">
+
+    <div class="col-sm-12">
+
+      <h4 class="mt-2 text-monospace text-light "> <img src='../assets/game.png' class="pull-left icon mr-2" height="40px" height="30px">
+        <span class=" text-light">gamingmazza</span><span class="text-dark">.in</span></h4></div>
+    </div>
+
+
+  <div class="row  signup" *ngIf="signupdiv">
+    <div class="col-sm-3 col-lg-4">
+
+    </div>
+    <div class="col-sm-6 col-lg-4  bg-darky signupform">
+      <h5 class="text-center mt-2 bg-blue-light">Create an account</h5>
+      <small id="emailHelp" class="form-text text-warning text-center">
+        <u> All your details are remain private to GamingMazza</u></small><br>
+      <form [formGroup]="signupform" (ngSubmit)="onSubmit()">
+
+        <div >
+          <input type="text" class="form-control rounded-input" placeholder="Enter your name" formControlName='name'>
+          <small class="text-danger alert">{{invalidName}}</small>
+        </div>
+        <div >
+          <input type="text" class="form-control rounded-input" placeholder="Enter mobile number"
+            formControlName='mobile'>
+          <small class="text-danger alert">{{invalidMobile}}</small>
+
+        </div>
+        <div class="form-group">
+
+          <input tooltip="Email can be used to forget/change password, So please enter your appropriate email id" 
+          triggers="focus" type="email" class="form-control rounded-input" placeholder="Email Id" formControlName='email'>
+         <small></small>
+          <small class="text-danger alert"
+            *ngIf="!signupform.get('email').valid && signupform.get('email').touched">Please enter a valid email</small>
+
+
+        </div>
+
+        <div class="form-group">
+
+          <input type="text" placeholder="Date Of birth (mm/dd/yy)" class="form-control rounded-input" bsDatepicker
+            formControlName='dob' placement="top">
+
+        </div>
+        <div >
+          <table class="table table-borderless table-sm text-center">
+            <tr>
+              <td><b>Gender :</b></td>
+              <td>
+                <select class="form-control bg-dark text-white" formControlName='gender'>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="others">Others</option>
+                </select>
+              </td>
+            </tr>
+          </table>
+
+        </div>
+        <div>
+          <table class="table table-borderless table-sm text-center">
+            <tr>
+              <td><b>Select game :</b></td>
+              <td>
+                <select class="form-control bg-dark text-white" formControlName='game'>
+                  <option value="PUBG">PUBG Mobile</option>
+                  <option value="FREEFIRE">FREEFIRE</option>
+                </select>
+              </td>
+            </tr>
+          </table>
+
+
+        </div>
+        <div >
+
+          <input type="text" class="form-control rounded-input" placeholder="Enter Password"
+            formControlName='password'>
+          <small class="text-danger alert">{{invalidPass}}</small>
+        </div>
+           <b class="text-center text-danger text-monospace" *ngIf="has"> Mobile/Email  already registered.</b>
+
+        <div class="form-group d-flex ">
+
+          <button type="submit" class=" ml-auto btn  btn-light" [disabled]="!signupform.valid"><b>&nbsp;&nbsp;
+            Signup&nbsp;&nbsp;</b></button>
+        </div>
+
+
+      </form>
+      <div class=" mb-3 text-center">
+        <div class="hr-float-l">
+          <hr />
+        </div>
+        <div class="hr-float-r ">
+          <hr />
+        </div>
+        <b class="text-white">Or</b>
+      </div>
+      <div class="text-center">
+        <strong class="text-white cursor"><span routerLink="/login">Already have an account ?</span></strong>
+      </div>
+    </div>
+
+  </div>
+
+
+</div>
+<div class="container bg-dark text-center rounded-div" *ngIf="profilepicdiv">
+  <div class="row">
+    <div class="col-sm-12 text-center">
+  <div class="text-center mb-3" *ngIf="datasave">
+    <b class="alert alert-success ">Signup successfull</b>
+  </div>
+  <h2 class="bg-blue-dark">Set Profile Picture</h2>
+  <hr>
+  <img [src]="profileImage" class="setProfileIma"><br><br><br>
+  <input type="button" class="btn btn-outline-light" value="Choose Image" accept="image/*" (click)="onSelectProfileImage()">
+  <hr>
+  <table >
+    <tr >
+      <td><button class="rounded-btn btn-danger" (click)="skipImage()">Not Now</button></td>
+      <td><button class="rounded-btn" (click)="uploadProfilePic();">Upload</button></td>
+    </tr>
+  </table>
+  
+  
+</div>
+</div>
+</div>

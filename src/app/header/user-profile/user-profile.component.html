@@ -1,0 +1,122 @@
+<div class="container-fluid">
+
+  <div class="row bg-light">
+    <div class="col-md-6 ">
+
+      <img src="{{userDetail.profileimage}}" (click)="openProfilePic(userDetail.profileimage)"
+        onerror="this.onerror=null;this.src='../assets/login.png'" class="profileImage mt-1">
+
+      <table class="">
+        <tr>
+          <td><b>{{userDetail.name}}</b></td>
+        </tr>
+        <tr>
+          <td>#{{userDetail.game}}</td>
+        </tr>
+      </table>
+
+
+      <button class="btn btn-sm btn-dark mb-2 mr-1 active"><b>{{followers}}</b>&nbsp;Followers</button>
+      <button class="btn btn-sm btn-danger mb-2 mr-1" (click)="follow()" *ngIf="isFollow==1?false:true"
+      [innerHTML]="FOLLOW" [disabled]="btnDisabled">
+       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+      <button class="btn btn-sm btn-success mb-2 mr-1 active" (click)="follow()" *ngIf="isFollow==1?true:false"
+        [innerHTML]="FOLLOWING" [disabled]="btnDisabled"></button>
+
+    </div>
+    <div class="col-md-6">
+      <div class=" text-dark mt-3 ">
+        <i>Join On : {{userDetail.createdate }}</i><br>
+        <i class="fa   fa-envelope">&nbsp;Email:&nbsp;</i> {{userDetail.email}}<br>
+        <i class="fa  fa-calendar">&nbsp;DOB :&nbsp;</i>{{userDetail.dob |date}}<br>
+        <i class="fa  fa-male">&nbsp;Gender :&nbsp;</i>{{userDetail.gender}}<br>
+        <i class="fa  fa-users">&nbsp;Playing :&nbsp;</i>{{userDetail.game}}<br>
+
+        <i class="fa  fa-phone-square">&nbsp;Mobile :&nbsp;</i>
+        <div *ngIf="userDetail.mobilestatus=='Private'?false:true">
+          {{userDetail.mobile}}
+        </div>
+        <span class="text-primary">{{userDetail.mobilestatus}}</span><br>
+        <button class="btn btn-outline-primary "
+          routerLink="/gallery/{{userDetail.name}}/{{userDetail.userid}}">Photos</button>
+      </div>
+    </div>
+
+  </div>
+  <div class="row d-flex justify-content-center bg-light p-2">
+
+
+
+  </div>
+  <div class="row bg-lightgray">
+    <div class="col-sm-3"></div>
+    <div class="col-md-6 mt-3 mb-2">
+
+      <!--User post Card-->
+
+      <div class="card mb-3" *ngFor="let post of userPostData;index as i">
+
+        <div class="card-header ">
+
+
+          <img src="{{userDetail.profileimage}}"
+            onerror="this.onerror=null;this.src='../assets/login.png'" class="float-left mr-2 ml-1 mt-1 circle-image">
+
+          <div class="">
+            <b>{{userDetail.name}}</b><br>
+            <small>{{post.date}}</small>
+          </div>
+
+        </div>
+
+        <div class="card-body mt-2">
+          <p style='white-space: pre-wrap;' class="font-weight-normal ml-3 "  [innerHTML]="post.description | shortdescription">
+           
+          </p>
+          <div *ngIf="">
+            liked
+          </div>
+          <div *ngIf="post.image?true:false">
+
+            <img (load)="$event.target.classList.add('image-loaded')" src="{{post.image}}" (click)="openLightbox(post.image,post.likes,post.dislikes)"
+            onerror="this.style.display='none'" class="img-fluid " width="100%"> 
+              <img class="spi w-100" src="../assets/loader.gif"/>
+            
+          </div>
+        </div>
+        <div class="card-footer">
+          <ul class="nav nav-pills nav-justified">
+            <li class="nav-item ">
+              <a class="nav-link right-border">
+
+                <small>{{post.likes}} likes</small> </a>
+            </li>
+            <li class="nav-item ">
+              <a class="nav-link right-border">
+                <small>{{post.dislikes}} dislikes</small>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link " (click)="onClickComment(i)" routerLinkActive='active' routerLink="../comment">
+                <small class="mr-2"> <b>{{post.comments}} Comment</b></small>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="text-center">
+        <div *ngIf="morePost">
+          <button class="btn btn-sm " (click)="loadMorePost()">See More</button>
+        </div>
+        <div class="" *ngIf="spinners">
+          <img src="../assets/load.gif">
+        </div>
+        <p class="text-danger" *ngIf="notpostanything">{{userDetail.name}} does't post anything </p>
+
+      </div>
+
+    </div>
+    <div class="col-sm-3"></div>
+  </div>
+</div>

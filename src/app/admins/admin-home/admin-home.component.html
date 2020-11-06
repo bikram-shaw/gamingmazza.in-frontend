@@ -1,0 +1,311 @@
+<div class="container" >
+    <div class="jumbotron bg-info text-center text-white">
+        <h1>GamingMazza</h1>
+        <h2>Admin Home Panel</h2>
+        <div class="pull-right">
+            <button class="btn btn-success amr-2 ctive">{{adminname}}</button>
+            <button (click)="adminLogout()" class="btn btn-danger">Logout</button>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <tabset [justified]="true">
+                <!---create game tab-->
+                <tab heading="Create Game">
+                    <div class="mt-3">
+                        <h2 class="text-center text-danger">Create Game</h2>
+                        <small class="text-danger">NOTE : Generate Game Id First</small>
+                        <form [formGroup]="creategameform" (ngSubmit)="onSubmitCreateGameForm()">
+
+                            <table class="table">
+                                <tr>
+                                    <td>Status :</td>
+                                    <td><select class="form-control" formControlName="status">
+                                            <option value="active">Active</option>
+
+                                        </select></td>
+                                    <td><label>Game Name :</label></td>
+                                    <td> <select class="form-control" (change)="selectedGame($event)"
+                                            formControlName="gamename">
+                                            <option value="FREEFIRE">FREEFIRE</option>
+                                            <option value="PUBG">PUBG</option>
+                                        </select>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td> <label>Game Mode :</label></td>
+                                    <td>
+                                        <select class="form-control" formControlName="mode">
+                                            <option value="SOLO">SOLO</option>
+                                            <option value="DUO">DUO</option>
+                                            <option value="SQUAD">SQUAD</option>
+                                        </select>
+                                    </td>
+                                    <td><label>Game DATE:</label></td>
+                                    <td> <input type="date" class="form-control" formControlName="date"></td>
+                                </tr>
+                                <tr>
+                                    <td><label>Game Time :</label></td>
+                                    <td> <input type="text" placeholder="example :10 AM" class="form-control"
+                                            formControlName="time"></td>
+                                    <td> <label>Entry Fee :</label></td>
+                                    <td><input type="text" class="form-control" formControlName="entryFee"></td>
+                                </tr>
+                                <tr>
+                                    <td><label>Per Kill :</label></td>
+                                    <td> <input type="text" class="form-control" formControlName="perKill"></td>
+                                    <td> <label>Winning Amount :</label></td>
+                                    <td> <input type="text" class="form-control" formControlName="winAmount"></td>
+                                </tr>
+                                <tr>
+                                    <td> <label>Map :</label></td>
+                                    <td> <select class="form-control" formControlName="map">
+
+                                            <option *ngFor="let map of selectedgame" value="{{map}}"><span>{{map}}
+                                                </span></option>
+
+                                        </select></td>
+                                    <td> <label>Spot :</label></td>
+                                    <td><input type="text" class="form-control" formControlName="spot"></td>
+                                </tr>
+                                <tr>
+
+
+                                    <td>Image :</td>
+                                    <td>
+                                        <select class="form-control" formControlName="image">
+                                            <option value="ffsolo.jpg">FREEFIRE SOLO</option>
+                                            <option value="ffduo.jpg">FREEFIRE DUO</option>
+                                            <option value="ffsquad.jpg">FREEFIRE SQUAD</option>
+                                            <option value="pubgsolo.jpg">PUBG SOLO</option>
+                                            <option value="pubgduo.jpg">PUBG DUO</option>
+                                            <option value="pubgsquad.jpg">PUBG SQUAD</option>
+                                        </select>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td><input type="submit" [disabled]="!creategameform.valid"
+                                            class="form-control btn btn-danger" value="CREATE"></td>
+
+
+                                </tr>
+                            </table>
+
+                        </form>
+                    </div>
+
+
+
+                </tab>
+                <!--Active game tab-->
+                <tab heading="Active Game">
+                    <div class=" mt-3 text-center bg-danger p-2 mb-2">
+                        <button class="btn btn-dark mr-2" (click)="activeFreefireGames()">Freefire</button>
+                        <button class="btn btn-primary" (click)="activePubgGames()"> Pubg </button>
+
+
+                    </div>
+                    <div class="row bg-blue-deep">
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-8 mt-2">
+                            <div class="card mb-2" *ngFor="let data of gamesdata; index as i">
+                                <img class="card-img-top img-fluid" src="{{url}}/{{data.game.image}}"
+                                    alt="{{data.game.image}}">
+                                <div class="card-body">
+                                    <h4 class="card-title text-info">
+                                        #{{data.game.gameid}}&nbsp;{{data.game.mode}}&nbsp;Party</h4>
+                                    <table>
+                                        <tr class="font-weight-bold text-danger">
+                                            <td>Time :</td>
+                                            <td>{{data.game.date |date}} at {{data.game.time}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Winning Prize :</td>
+                                            <td>{{data.game.winAmount}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Entry Fee :</td>
+                                            <td>{{data.game.entryFee}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Per Kill :</td>
+                                            <td>{{data.game.perKill}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Map :</td>
+                                            <td>{{data.game.map}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Spot :</td>
+                                            <td>{{data.game.spot}}</td>
+                                        </tr>
+
+                                    </table>
+
+
+                                    <button class="btn btn-sm btn-outline-dark float-left">Delete</button>
+                                    <button class="btn  btn-outline-success d-flex ml-auto"
+                                        (click)="openModal(roomModal);roomFormdata(data.game.gameid);">Enter Room
+                                        Details</button>
+
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-2"></div>
+                    </div>
+                </tab>
+                <!--Ongoing match tab-->
+                <tab heading="Ongoing Game">
+
+
+                    <div class=" mt-3 text-center bg-danger p-2 mb-2">
+                        <button class="btn btn-dark mr-2" (click)="ongoingFreefireGames()">Freefire</button>
+                        <button class="btn btn-primary" (click)="ongoingPubgGames()"> Pubg </button>
+
+                    </div>
+                    <div class="row bg-dark">
+                        <div class="col-md-2">
+
+                        </div>
+                        <div class="col-md-8 mt-2 mb-5">
+
+                            <div class="card mb-2" *ngFor="let data of ongoinggamesdata; index as i">
+                                <img class="card-img-top img-fluid" src="{{url}}/{{data.game.image}}"
+                                    alt="{{data.game.image}}">
+                                <div class="card-body">
+                                    <h4 class="card-title text-info">
+                                        #{{data.game.gameid}}&nbsp;{{data.game.mode}}&nbsp;Party</h4>
+                                    <table>
+                                        <tr class="font-weight-bold text-danger">
+                                            <td>Time </td>
+                                            <td>:</td>
+                                            <td>{{data.game.date |date}} at {{data.game.time}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Winning Prize </td>
+                                            <td>:</td>
+                                            <td>{{data.game.winAmount}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Entry Fee </td>
+                                            <td>:</td>
+                                            <td>{{data.game.entryFee}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Per Kill </td>
+                                            <td>:</td>
+                                            <td>{{data.game.perKill}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Map </td>
+                                            <td>:</td>
+                                            <td>{{data.game.map}}</td>
+                                        </tr>
+
+                                    </table>
+                                    <div class="mb-2 text-center">
+                                        <progressbar max="{{data.game.spot}}" [value]="data.joinspot" type="info"
+                                            [striped]="true" [animate]="true"></progressbar>
+                                        <small class="">Joined {{data.joinspot}} player </small>
+                                    </div>
+
+                                    <button class="pull-right btn btn-info"
+                                        routerLink="../resultDetails/{{data.game.gameid}}">Enter Result Info</button>
+
+
+
+
+
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2"></div>
+                    </div>
+
+                </tab>
+                <!--withdraw request tab-->
+                <tab heading="Withdraw Request">
+                    <h2 (click)="withdrawRequest()" class="btn btn-outline-info d-flex justify-content-center mt-3">Load
+                        Data</h2>
+                    <div class="row  mt-3">
+                        <div class="col-sm-12">
+                            <table class="table">
+
+                                <thead>
+                                    <th>User Id</th>
+                                    <th>Order Id</th>
+                                    <th>Date</th>
+                                    <th>Amount</th>
+                                    <th>Mobile/Upi</th>
+                                    <th>Mode</th>
+                                    <th></th>
+
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let data of withdrawRequestData;index as i">
+                                        <td>{{data.userid}}</td>
+                                        <td>{{data.id}}</td>
+                                        <td>{{data.date}}</td>
+                                        <td>{{data.amount}}</td>
+                                        <td>{{data.mobileUpi}}</td>
+                                        <td>{{data.mode}}</td>
+                                        <td><input type="button" class="btn btn-outline-danger" value="Done"
+                                                (click)="withdrawDone(data.id,i)"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </tab>
+
+            </tabset>
+        </div>
+
+    </div>
+</div>
+<!--Room details modal-->
+<ng-template #roomModal>
+    <div class="modal-header bg-dark text-white">
+        <h4 class="modal-title pull-left">Enter Room Details</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body bg-info">
+        <form [formGroup]="roomForm" (ngSubmit)="onSubmitRoomForm()">
+            <table class="table ">
+
+                <tr>
+                    <td>
+                        <h5 class="text-danger">Game Id : # {{gameid}}</h5>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Room Id :</td>
+                    <td><input type="text" class="form-control" formControlName='roomid' placeholder="Room Id"></td>
+                </tr>
+                <tr>
+                    <td>Room Password :</td>
+                    <td><input type="text" class="form-control" formControlName='password' placeholder="Room Password">
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><input [disabled]="!roomForm.valid" type="submit" class="btn btn-danger form-control"
+                            value="Submit"></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</ng-template>
+
+<router-outlet></router-outlet>

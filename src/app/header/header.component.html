@@ -1,0 +1,136 @@
+<div class="container-fluid desktop-nav  fixed-top">
+  <div class="row bg-blue pt-1 pb-1 d-flex align-items-center ">
+    <div class="col-sm-4 col-md-2 ">
+      <h1 class=" text-center  logo text-white bg-dark">GamingMazza</h1>
+    </div>
+    <div class="col-sm-7 col-md-8 d-flex ">
+      <ul class="nav  align-items-center ">
+
+        <li class="nav-item">
+          <a class="nav-link   " routerLinkActive='active' [routerLinkActiveOptions]={exact:true} routerLink="../acc"><i
+              class="fa fa-home"> Home</i></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link btnbtn-sm" routerLinkActive='active' routerLink="profile"><i class="fa fa-user-circle">
+            Profile</i></a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link cursor text-dark cursor" (click)="openModal(searchModal)"><i
+              class="fa fa-search">Search</i></a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link " (click)="openModal(gameZone)"><img  src="../assets/cup.gif" height="30px"></a>
+        </li>
+      </ul>
+
+
+
+
+    </div>
+    <div class="col-sm-1 col-md-2 d-flex">
+      <div class="nav align-items-center">
+        <li class="nav-item  ml-auto">
+          <button class=" btn btn-sm btn light ml-auto  btn-light" (click)="openModal(logoutConfirmModal)"><i
+              class="fa fa-sign-out"></i>Logout</button>
+        </li>
+      </div>
+    </div>
+  </div>
+</div>
+<!--For mobile header-->
+<div class="container-fluid bg-blue mobile-nav  fixed-top ">
+
+  <ul class="nav  nav-justified">
+    <li class="nav-item">
+      <a class="nav-link " routerLinkActive='active' [routerLinkActiveOptions]={exact:true} routerLink="../acc"> <i
+          class="fa fa-home"></i></a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" routerLinkActive='active' routerLink="profile"> <i class="fa fa-user-circle"> </i> </a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link cursor" (click)="openModal(searchModal)"><i class="fa fa-search"></i></a>
+    </li>
+
+    <li class="nav-item ">
+      <a class="nav-link " (click)="openModal(gameZone)"><img   src="../assets/cup.gif" height="30px"></a>
+    </li>
+    <li class="nav-item d-flex align-items-center">
+      <a class="nav-link" (click)="openModal(logoutConfirmModal)"><i class="fa fa-sign-out "></i></a>
+    </li>
+
+  </ul>
+
+
+</div><br><br>
+<!--Search Modal-->
+<ng-template #searchModal>
+  <div class="modal-header">
+    <input class="form-control" type="text" placeholder="Search..." (keyup)="Search($event)">
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div *ngIf="loadSpinner" class="text-center">
+      <h4 class="spinner-grow text-dark "></h4>
+    </div>
+    <div *ngIf="notFound">
+      <h4 class="text-danger text-center">Not found!</h4>
+    </div>
+    <div *ngFor="let data of searchData">
+
+      <table>
+        <tr>
+          <span (click)="userProfile(data.userid)" class="cursor">
+            <td><img class="image" src="{{data.profileimage}}"
+                onerror="this.onerror=null;this.src='../assets/login.png'"></td>&nbsp;&nbsp;
+            <td><span class="text-primary">{{data.name}}</span><br><small
+                [style.color]="data.game=='PUBG'?'#800033':'#008000'">#{{data.game}}</small></td>
+          </span>
+
+        </tr>
+        <hr>
+      </table>
+    </div>
+  </div>
+</ng-template>
+<!--gamerZone confirm modal-->
+<ng-template #gameZone>
+  <div class="modal-body text-center bg-blue-deep text-white">
+    <h4>Choose Game</h4>
+
+
+    <table>
+      <tr>
+        <td (click)="freefire()"> <img  class="choosegame img-thumbnail" src="../../assets/ffc.jpg" >
+         
+         
+        </td>
+        <td (click)="pubg()"><img   class="choosegame img-thumbnail" src="../../assets/pubj.jpg" >
+          
+        </td>
+      </tr>
+      <tr>
+        <td><button class="btn btn-outline-light btn-sm" (click)="freefire()">FREEFIRE </button></td>
+        <td><button class="btn btn-outline-light btn-sm" (click)="pubg()">&nbsp;&nbsp;&nbsp;PUBG MOBILE&nbsp;&nbsp;&nbsp;</button></td>
+      </tr>
+    </table>
+
+  </div>
+</ng-template>
+<!--logout confirm ,modal-->
+<ng-template #logoutConfirmModal>
+  <div class="modal-body text-center bg-blue-deep text-white">
+    <h4>Are you sure?</h4>
+<hr>
+
+        <button class="mr-3 btn btn-outline-danger btn-sm" (click)="onLogout()">Yes </button>
+        <button class="btn btn-outline-success btn-sm" (click)="hideModal()">&nbsp;No&nbsp;</button>
+     
+  </div>
+</ng-template>
+<router-outlet></router-outlet>

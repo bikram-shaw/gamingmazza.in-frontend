@@ -1,0 +1,29 @@
+<div class="container-fluid bg-lightgray">
+    <div class="row ">
+        <div class="col-sm-12 text-center bg-dark text-white mb-2">
+            <h5>Photo's of {{name}} </h5>
+        </div>
+        <div class=" col-md-12 text-center jumbotron text-danger"  *ngIf="empty">
+        <h4 >Gallery is empty !</h4>
+    </div>
+    </div>
+    <div class="row "  >
+        <div class="col-md-3 text-center" *ngFor="let data of images;index as i">
+           
+            <img (load)="$event.target.classList.add('image-loaded')" src="{{data.image}}" class="image img-fluid img-thumbnail mb-1" (click)="open(i)">
+            <img class="spi" src="../assets/loader.gif"/>
+                          
+        
+        </div>
+    </div>
+    
+   
+    <div class="row ">
+        <div class="col-md-12 text-center mb-1 mt-3">
+            <button class="btn btn-info btn-sm " (click)="loadMoreImage()" *ngIf="loadmore">
+                &nbsp;See More&nbsp;</button>
+        </div>
+        
+    </div>
+</div>
+

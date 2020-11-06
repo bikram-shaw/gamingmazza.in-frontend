@@ -1,0 +1,233 @@
+<div class="container-fluid bg-bg-light mt-2 p-2">
+
+  <div class="row ">
+    <div class="col-md-6 ">
+      <img src="{{loginUser.profileimage}}" (click)="openProfilePic(loginUser.profileimage)"
+        onerror="this.onerror=null;this.src='../assets/login.png'" class="profileImage">
+      <table class="">
+        <tr>
+          <td>
+            <h5>{{loginUser.name}}</h5><b>#{{loginUser.game}}</b>
+          </td>
+        </tr>
+        <tr>
+          <td><b class="text-primary cursor" (click)="openModal(changeProfileImage)">Change profile picture</b></td>
+        </tr>
+        <tr>
+          <button class="btn btn-sm btn-info mb-2 mr-1 active"><b>{{followers}}</b>&nbsp;Followers</button>
+        </tr>
+      </table>
+
+
+
+
+    </div>
+    <div class="col-md-6">
+      <div class=" text-dark mt-3 ">
+        <i>Join On : {{loginUser.createdate }}</i><br>
+        <i class="fa   fa-envelope">&nbsp;Email:&nbsp;</i> {{loginUser.email}}<br>
+        <i class="fa  fa-calendar">&nbsp;DOB :&nbsp;</i>{{loginUser.dob |date}}<br>
+        <i class="fa  fa-male">&nbsp;Gender :&nbsp;</i>{{loginUser.gender}}<br>
+        <i class="fa  fa-users">&nbsp;Playing :&nbsp;</i>{{loginUser.game}}<br>
+        <i class="fa  fa-phone-square">&nbsp;Mobile :&nbsp;</i>{{loginUser.mobile}} <sup
+          class="text-primary">({{this.loginUser.mobilestatus}})</sup><br>
+          <i class="fa  fa-lock">  </i><span class="text-primary cursor" routerLink="../../password">Change password</span>
+        <div class="mt-2 ">
+          <i class="fa fa-pencil text-info mb-2" (click)="openModal(template)"> &nbsp;Edit Info</i>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="row d-flex justify-content-center bg-dark p-2">
+
+
+
+    <button class="btn" routerLink="/gallery/{{loginUser.name}}/{{loginUser.userid}}">Photos</button>
+
+  </div>
+  <div class="row bg-lightgray">
+    <div class="col-sm-3"></div>
+    <div class="col-md-6 mt-3 mb-2">
+
+      <!--User post Card-->
+
+      <div class="card mb-3" *ngFor="let post of PostData;index as i">
+
+        <div class="card-header ">
+          <small class="float-right mr-3 mt-2 text-primary cursor " placement="left" [outsideClick]="true"
+            (onShown)="onShown(post.postid,i,post.description)" [popover]="popTemplate">
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+          </small>
+
+          <img src="{{loginUser.profileimage}}"
+            onerror="this.onerror=null;this.src='../assets/login.png'" class="float-left mr-2 ml-1 mt-1 circle-image">
+          <div class="">
+            <b>{{loginUser.name}}</b><br>
+            <small>{{post.date}}</small>
+          </div>
+
+        </div>
+
+        <div class="card-body mt-2">
+          <p style='white-space: pre-wrap;'class="font-weight-normal ml-3 "  [innerHTML]="post.description | shortdescription">
+           
+          </p>
+          <div *ngIf="">
+            liked
+          </div>
+          <div *ngIf="post.image?true:false">
+
+            <img  (load)="$event.target.classList.add('image-loaded')" src="{{post.image}}" (click)="openLightbox(post.image,post.likes,post.dislikes)"
+              onerror="this.style.display='none'" class="img-fluid " width="100%">
+              <img class="spi w-100" src="../assets/loader.gif"/>
+              
+          </div>
+        </div>
+        <div class="card-footer" class="bg-dark text-white">
+          <ul class="nav nav-pills nav-justified">
+            <li class="nav-item ">
+              <a class="nav-link right-border">
+
+                <small><b>{{post.likes}} likes</b></small> </a>
+            </li>
+            <li class="nav-item ">
+              <a class="nav-link right-border">
+                <small><b>{{post.dislikes}} dislikes</b></small>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link " (click)="onClickComment(i)" routerLink="../../comment">
+                <small class="mr-2"> <b>{{post.comments}} Comment</b></small>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="text-center">
+        <div *ngIf="morePost">
+          <button class="btn btn-sm " (click)="loadMorePost()">See More</button>
+        </div>
+        <div class="" *ngIf="spinner">
+          <img src="../assets/load.gif">
+        </div>
+        <p class="text-danger" *ngIf="notpostanything">Didn't post anything !goto <a routerLink="../home">home</a> and
+          post something</p>
+
+      </div>
+
+    </div>
+    <div class="col-sm-3"></div>
+  </div>
+</div>
+
+
+
+
+
+<!--update info modal-->
+<ng-template #template>
+  <div class="modal-header bg-primary">
+    <h4 class="modal-title pull-left">Update Info</h4>
+    <button type="button" class="close pull-right text-danger" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="UpdateInfo" (ngSubmit)="Updateprofile();">
+      <table class="table table-borderless">
+        <tr>
+          <td>
+            Name :
+          </td>
+          <td>
+            <input type="text" class="form-control" formControlName='name'>
+          </td>
+        </tr>
+
+        <tr>
+          <td>DOB : <small class="text-muted">(MM/DD/YY)</small></td>
+          <td><input type='text ' bsDatepicker class="form-control" formControlName='dob'></td>
+        </tr>
+        <tr>
+          <td>Gender :</td>
+          <td>
+            <select class="form-control" formControlName='gender'>
+              <option value="male">Male</option>
+              <option value="female">FeMale</option>
+              <option value="others">Others</option>
+            </select>
+
+          </td>
+        </tr>
+     
+<tr>
+  <td>Mobile Status :</td>
+  <td> <select class=" btn btn-outline-info form-control " formControlName='mobilestatus'>
+
+    <option value="Public">Public</option>
+    <option value="Private">Private</option>
+    <option value="Followers">Followers</option>
+  </select></td>
+</tr>
+      </table>
+      <div class="d-flex">
+        <button type="submit" [disabled]="!UpdateInfo.valid" class="btn btn-outline-success ml-auto">Submit</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+<!--Popover for edit and delete-->
+<ng-template #popTemplate>
+  <i class=" cursor fa-4x  text-primary fa fa-edit" (click)="openModal(editpost)"></i>
+  <br>
+  <i class=" cursor  fa-4x text-danger fa fa-trash" (click)="openModal(deletepostconfirm)"></i>
+ 
+</ng-template>
+<!--delete post confirm model-->
+<ng-template #deletepostconfirm>
+  <div class="modal-body text-center">
+    <p>Do you want to confirm?</p>
+    <button type="button" class="btn btn-outline-success"
+      (click)="deletePost()">&nbsp;&nbsp;Yes&nbsp;&nbsp;</button>&nbsp;
+    <button type="button" class="btn btn-outline-danger"
+      (click)="hideModal()">&nbsp;&nbsp;&nbsp;No&nbsp;&nbsp;&nbsp;</button>
+  </div>
+</ng-template>
+<!--Edit post modal-->
+<ng-template #editpost>
+  <div class="modal-body text-center">
+    <textarea class="form-control" rows="3" id="comment" value="{{data.description}}" placeholder="Write something..."
+      #editdata></textarea>
+    <div class="d-flex justify-content-end">
+      <button type="button" class="btn btn-danger  mt-2" (click)="hideModal()">Cancel</button>&nbsp;
+      <button type="button" class="btn btn-success  mt-2" (click)="editPost(editdata)">Save</button>&nbsp;
+    </div>
+  </div>
+</ng-template>
+<!--changeProfileImage modal-->
+<ng-template #changeProfileImage>
+  <div class="modal-header bg-dark">
+    <h3 class=" text-white">Change profile picture</h3>
+  </div>
+  <div class="modal-body text-center">
+    <span *ngIf="afterChooseImage"><img src="{{loginUser.profileimage}}"
+        onerror="this.onerror=null;this.src='../assets/login.png'" class="profileImage">
+      <h6>{{loginUser.name}}</h6>
+    </span>
+    <span *ngIf="!afterChooseImage"> <img [src]="profileImage" class="profileImage">
+      <h6>{{loginUser.name}}</h6>
+    </span>
+    <hr>
+    <input class=" btn btn-outline-dark" type="button" value="Choose profile image" accept="image/*" (click)="chooseImage()"><br>
+
+    <button type="button" class="btn btn-outline-success  mt-2" (click)="uploadProfileImage()" [innerHtml]="uploadbtn" [disabled]="!profileImage"></button>&nbsp;
+    <button type="button" class="btn btn-outline-danger  mt-2" (click)="hideModal()">Cancel</button>&nbsp;
+
+
+  </div>
+</ng-template>

@@ -1,0 +1,108 @@
+<div class="container-fluid mm">
+    <div class="row bg-blue   logo">
+
+        <div class="col-sm-12 ">
+
+            <h4 class="mt-2 text-monospace text-light "> <img src='../assets/game.png' class="pull-left icon mr-2" height="40px" height="30px">
+                <span class=" text-light">gamingmazza</span><span class="text-dark">.in</span></h4></div>
+
+    </div>
+
+    <marquee>
+      <b class=" text-center text-muted text-monospace ">Tournaments are going on, Join Play & Earn.
+           <span class="text-danger">Register NOW</span></b>
+
+      </marquee>
+
+    <div class="row p-3" >
+        <div class=" col-sm-3 col-lg-4">
+        </div>
+        <div class="col-sm-6  col-lg-4 loginform bg-blue-deep"  style="border:2px solid darkslategrey;">
+
+
+            <div class="text-center mb-3 mt-3 cursor" data-toggle="collapse" href="#collapseExample" >
+               <h4 class="text-info "><b>Login<span class="text-light"> / </span>
+                <span class="text-danger">Sign Up </span></b></h4>
+
+            </div>
+
+ <div  class="collapse" id="collapseExample">
+
+            <div class="form-group">
+
+                <input type="text" class="form-control rounded-input" [(ngModel)]="mobile" placeholder=" Mobile No.">
+            </div>
+            <div class="form-group">
+
+
+
+                    <input [type]="passwordField" class="form-control rounded-input"
+                [(ngModel)]="password" placeholder="Password">
+
+
+
+            </div>
+            <div class="text-center" *ngIf="loginerror">
+                <p class="text-danger">Invalid Mobile / Password</p>
+
+            </div>
+            <div class=" pull-left">
+
+                <span class="text-primary cursor" routerLink="../password">Forget Password</span>
+
+            </div>
+            <div class="form-group d-flex">
+
+                <button class=" ml-auto btn  rounded-btn" (click)="login()" [innerHTML]="loginbtn" [disabled]="btnDisabled"></button>
+
+            </div>
+
+
+            <div class=" mb-3 text-center">
+                <div class="hr-float-l">
+                    <hr />
+                </div>
+                <div class="hr-float-r">
+                    <hr />
+                </div>
+                <b class="text-success">Or</b>
+
+
+                <button class="btn btn-sm   rounded-btn" routerLink="/signup">Create new account</button>
+            </div>
+        </div>
+        </div>
+        <div class="col-sm-3  col-lg-4">
+
+</div>
+
+</div>
+
+<div class="row mb-2">
+
+  <div class="col-sm-12 text-center">
+  <button type="button" class="btn btn-primary" (click)="submitLogin()">Login with facebook</button><br><br>
+  <button type="button" class="btn btn-danger" (click)="submitLogin()">Login with google</button><br><br>
+  <button type="button" class="btn btn-success" (click)="submitLogin()">Login with twitter</button>
+</div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12 ">
+
+
+<app-front-notification></app-front-notification>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-sm-12 text-center jumbotron mb-0">
+        <p>Follow Us</p>
+       <a class="btn btn-info cursor mr-2" href='https://www.facebook.com/gamingmazza/'>&nbsp;<i class="fa fa-facebook"></i>&nbsp;</a>
+       <a class="btn btn-danger cursor" href='https://m.youtube.com/channel/UCQf0eVadK45atH3spFcAU9A?view_as=subscriber'>
+        <i class="fa fa-youtube"></i></a>
+
+    </div>
+</div>
+</div>

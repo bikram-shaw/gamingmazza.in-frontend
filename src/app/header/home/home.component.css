@@ -1,0 +1,117 @@
+.image-upload > input
+{
+    display: none;
+}
+
+.image-upload i
+{
+    color: white;
+    font-size: 30px;
+    cursor: pointer;
+    
+}
+.mybtn
+{
+    
+    width: 100px;
+    font-weight: bold;
+    border-radius: 20px;
+}
+.post-create
+{
+    background-color: lightgray;
+    padding: 3px;
+    border-radius: 5px 5px 0px 0px;
+    
+}
+.textarea
+{
+    border: 3px solid lightgray;
+}
+textarea{
+    border: none;
+   
+}
+textarea:focus
+{
+    outline:none;
+    box-shadow:none;
+}
+.card{
+    border: none;
+   
+}
+.card-header
+{
+   background-color: white;
+    border:none;
+    padding: 0px;
+    
+}
+.card-footer
+{
+   border-top:1px solid gray;
+  border-bottom: 1px  solid gray;
+   background-color: white;
+    padding: 0px;
+
+}
+img{
+    object-fit: cover;
+}
+a i{
+   
+    color: gray;
+    cursor: pointer;
+   margin-right: 2px;
+   font-size: 20px;
+   
+}
+
+
+.card-body
+{
+    padding: 1px;
+}
+.right-border
+{
+    border-right: 1px solid  gray;
+
+}
+a .liked
+{
+    color:#0618b4;
+   
+  
+    
+}
+a .disliked
+{
+    color:#0618b4;
+   
+}
+
+sup{
+   font-size: 15px;
+   font-weight: bold;
+}
+
+  .right{
+    position: absolute;
+    top: 80%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+  }
+ 
+  .user-de
+  {
+      cursor: pointer;
+      display: inline;
+  }
+  .cursor
+  {
+      cursor: pointer;
+      display: inline-block;
+      outline: none;
+  }

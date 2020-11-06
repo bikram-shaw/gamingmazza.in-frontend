@@ -1,0 +1,168 @@
+<div class="container mt">
+    <div class="row bg-darky mt-1">
+       <div class="col-sm-12 text-center">
+        <img class="pimage" src="{{loginUser.profileimage}}" onerror="this.onerror=null;this.src='../assets/login.png'"><br>
+        <div class="text-white">
+            <label >{{loginUser.name}}</label>
+            <p>{{loginUser.mobile}}</p>
+        
+        </div>
+       </div>
+            
+           
+        
+    </div>
+    <div class="row bg-gold mt-1 p-2 ">
+        <div class="col-sm-12 text-center">
+         <img class="wallet" src="../../assets/wallet.png"><br>
+         <div>
+            <h4><img class="rupee" src="../../assets/icon/money.svg">{{balance}}</h4>
+         
+         </div>
+         <button class="btn btn-success" (click)="openModal(addmoney)">Add Money</button>
+         <button class="btn btn-primary ml-2" (click)="openModal(withdraw)">Withdraw</button>
+        </div>
+       </div>
+       <div class="row bg-dark mt-1 p-2 mb-3">
+        <div class="col-12 text-center">
+         <h6 class="text-white">Wallet History</h6>
+         <table class=" table table-warning table-sm " >
+            <thead  >
+                <tr>
+                <th>OrderId</th>
+                <th>Description</th>
+                <th>Amount</th>
+                
+            </tr>
+            </thead>
+            <tbody class="table-light" *ngFor="let history of wallethistorydata">
+                <tr>
+                    <td>{{history.orderid}}</td>
+                    <td>{{history.description}}</td>
+                    <td [style.color]="history.status==='Credit'?'green':'red'">{{history.amount}}<br><small >{{history.status}}</small></td>
+                    
+                </tr>
+            </tbody>
+        </table>
+        <div class="text center text-danger">
+            <b>{{wallethistorymsg}}</b>
+        </div>
+        <button *ngIf="loadMoreHistory" class="btn btn-outline-warning btn-sm pull-right mb-5" (click)="loadMoreWalletHistory()" [innerHTML]="loadmorebtn"></button>
+        </div>
+        
+       </div>
+       
+</div>
+<!--Add money modal-->
+<ng-template #addmoney>
+    <div class="modal-body ">
+       
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+           <span aria-hidden="true">&times;</span>
+         </button>
+         
+         <table class="table table-borderless">
+            <tr>
+                <td><b>Enter Ammount :</b></td>
+            </tr>
+            <tr>
+                <td><input type="text"  class="form-control" placeholder="Ammount" name="TXN_AMOUNT" (keyup)="ammount($event)"></td>
+             
+            </tr>
+            <tr>
+                <small class="text-danger" *ngIf="msg">{{msgval}}</small>
+            </tr>
+           
+            <tr>
+               
+                <td><input [disabled]="!ammountVal"type="button" class=" pull-right btn btn-success" value="Add Money" (click)="loadData();modalRef.hide();openModal(confirm);" ></td>
+            </tr>
+        </table>
+    
+       </div>
+  </ng-template>
+  <!--withdraw model-->
+  <ng-template #withdraw>
+    <div class="modal-body">
+     <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <h4 class="text-center "> <img class="wallet" src="../../assets/wallet.png"></h4> 
+      <h4 class="text-center "><img class="rupee" src="../../assets/icon/money.svg">{{balance}}</h4><hr>
+      <alert type="success" *ngIf="WithdrawSuccessSms">
+        <span [innerHTML]="WithdrawSuccessSms"></span>
+      </alert>
+      <form [formGroup]="withdrawForm" (ngSubmit)="onSubmitWithdrawForm()">
+      <table class="table table-borderless">
+          <tr>
+            <td>Payment Mode :</td>
+            <td>
+                <select class="form-control" formControlName='mode'>
+                    <option value="paytm">Paytm</option>
+                    <option value="phonepay">Phonepay</option>
+                    <option value="gpay">Gpay</option>
+                    <option value="bhimupi">Bhim Upi</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            
+            <td>Mobile/Upi id :</td>
+            <td><input type="text" class="form-control" placeholder="Register mobile/Upi id" formControlName='mobileUpi'></td>
+        </tr>
+        
+        <tr>
+           <td>Ammount :</td>
+            <td><input type="text" class="form-control"  placeholder="Ammount" formControlName='amount'></td>
+            
+        </tr>
+        <tr>
+            <td></td>
+            <td><small class="text-danger" *ngIf="amountmsg">{{amountmsg}}</small></td>
+        </tr>
+        
+        <tr>
+
+            <td></td>
+            <td><input [disabled]="!withdrawForm.valid" type="submit" class=" pull-right btn btn-success" value="Withdraw" ></td>
+        </tr>
+    </table>
+</form>
+          
+    <small><b class="text-danger">Note:</b> Withdraw amount is credited  within 48 hours</small>
+    </div>
+    
+  </ng-template>
+  <!--confirm payment-->
+  <ng-template #confirm>
+    <div class="modal-body text-center">
+     
+      <form ngNoForm  method="post" action="https://securegw.paytm.in/order/process" >
+       
+        <input hidden type="text" value="{{paytm.MID}}" name="MID">
+        <input hidden type="text" value="{{paytm.WEBSITE}}" name="WEBSITE">
+        <input hidden type="text" value="{{paytm.INDUSTRY_TYPE_ID}}" name="INDUSTRY_TYPE_ID">
+        <input hidden type="text" value="{{paytm.CHANNEL_ID}}" name="CHANNEL_ID">
+        <input hidden type="text" value="{{paytm.ORDER_ID}}" name="ORDER_ID">
+        <input hidden type="text" value="{{paytm.CUST_ID}}" name="CUST_ID">
+        <input hidden type="text" value="{{paytm.MOBILE_NO}}" name="MOBILE_NO">
+        <input hidden type="text" value="{{paytm.EMAIL}}" name="EMAIL">
+        <input hidden type="text" value="{{paytm.TXN_AMOUNT}}" name="TXN_AMOUNT">
+        <input hidden type="text" value="{{paytm.CALLBACK_URL}}" name="CALLBACK_URL">
+        <input hidden type="text" value="{{paytm.CHECKSUMHASH}}" name="CHECKSUMHASH">
+       <div *ngIf="confirmbtn">
+        <p>Do you want to confirm?</p>
+      <button type="submit" class="btn btn-info mr-2">Yes</button>
+      <button type="button" class="btn btn-primary" (click)="modalRef.hide()" >No</button>
+    </div>
+    <div *ngIf="!confirmbtn" >
+        <img src="../../assets/load.gif" ><br>
+        <b class="text-danger">Don't  refresh the page...</b>
+      </div>
+       
+      </form>
+      
+    </div>
+  </ng-template>
+  <!--alert modal-->
+ 

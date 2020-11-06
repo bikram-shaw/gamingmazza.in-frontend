@@ -1,0 +1,97 @@
+<div class="container-fluid  mt h-100">
+
+    <div class="row">
+        <div class="col-md-3">
+
+        </div>
+        <div class="col-md-6 mt-2 mb-1">
+            <div  *ngIf="noActiveGame"class="text-center">
+                <div class="jumbotron">
+                      <h4 class="text-danger">{{noActiveGame}}</h4>
+                    </div>
+                    </div>
+                        <div class="card mb-2 bg-lgray" style='border:1px solid black' *ngFor="let data of gamesdata; index as i">
+                          <img (load)="$event.target.classList.add('image-loaded')" class="card-img-top img-fluid" src="{{url}}/{{data.game.image}}" alt="www.gamingmazza.in">
+                          <img class="spi" src="../assets/loader.gif"/>
+                          <div class="card-body">
+                            <h4 class="card-title text-info">#{{data.game.gameid}}&nbsp;{{data.game.mode}}&nbsp;Party</h4>
+                           <table>
+                                 <tr class="font-weight-bold text-danger">
+                                     <td >Time </td>
+                                     <td>:</td>
+                                     <td>{{data.game.date |date}} at {{data.game.time}}</td>
+                                 </tr>
+                                 <tr>
+                                     <td>Winning Prize </td>
+                                     <td>:</td>
+                                     <td>{{data.game.winAmount}}</td>
+                                 </tr>
+                                 <tr>
+                                  <td>Entry Fee </td><td>:</td><td>{{data.game.entryFee}}</td>
+                              </tr>
+                              <tr>
+                                  <td>Per Kill </td><td>:</td><td>{{data.game.perKill}}</td>
+                              </tr>
+                              <tr>
+                                  <td>Map </td><td>:</td><td>{{data.game.map}}</td>
+                              </tr>
+
+                             </table>
+                            <hr>
+                            <a href="https://www.youtube.com/channel/UCQf0eVadK45atH3spFcAU9A?view_as=subscriber">
+                            <button class="btn btn-sm  btn-outline-dark pull-left"
+                            ><img src="../assets/icon/youtube.svg" class="image"> Watch Now</button>
+                          </a>
+                            <button class="btn btn-sm  btn-outline-success pull-right"
+                            (click)="playerListResult(data.game.gameid);openModal(result);">View result</button>
+
+
+
+
+
+
+
+                          </div>
+                        </div>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+
+</div>
+
+<!--player list modal-->
+
+<ng-template #result>
+    <div class="mod">
+<div class="modal-header bg-info text-white">
+  <h4 class="modal-title pull-left">Result Details</h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div >
+    <table class="table  table-success table-sm">
+        <thead  class="bg-secondary text-white text-center">
+          <tr >
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Win</th>
+            <th scope="col">Kill</th>
+            <th scope="col">Status</th>
+          </tr>
+        </thead>
+        <tbody class="t">
+          <tr *ngFor="let data of resultData;index as i">
+            <th class="bg-secondary text-white " >{{i+1}}</th>
+            <td [innerHTML]='data.playername' class="text-left"></td>
+            <td class="text-warning">{{data.amount}}</td>
+            <td  [style.color]="'indigo'">{{data.kill}}</td>
+            <td [style.color]="data.status==='win'?'green':'red'">{{data.status}}</td>
+          </tr>
+
+        </tbody>
+      </table>
+
+</div>
+</div>
+</ng-template>

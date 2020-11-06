@@ -1,0 +1,139 @@
+<div class="container-fluid bg-blue-deep mt h-100">
+
+  <div class="row">
+    <div class="col-md-3">
+
+    </div>
+    <div class="col-md-6 mt-2 mb-1">
+      <div *ngIf="noActiveGame" class="text-center">
+        <div class="jumbotron">
+          <h4 class="text-danger">{{noActiveGame}}</h4>
+          <p class="text-success">Join game now...</p><br>
+          <small class="text-primary">NOTE : Room id & Password is shared in this section before 10-15 minitues of starting the match</small>
+        </div>
+      </div>
+      <div class="card mb-2" *ngFor="let data of gamesdata; index as i">
+
+
+        <img (load)="$event.target.classList.add('image-loaded')" class="card-img-top img-fluid"  src="{{url}}/{{data.game.image}}" alt="www.gamingmazza.in">
+        <img class="spi" src="../assets/loader.gif"/>
+        <div class="card-body">
+          <h4 class="card-title text-info">#{{data.game.gameid}}&nbsp;{{data.game.mode}}&nbsp;MATCH</h4>
+          <table>
+            <tr class="font-weight-bold text-danger">
+              <td>Time </td>
+              <td>:</td>
+              <td>{{data.game.date |date}} at {{data.game.time}}</td>
+            </tr>
+            <tr>
+              <td>Winning Prize </td>
+              <td>:</td>
+              <td>{{data.game.winAmount}}</td>
+            </tr>
+            <tr>
+              <td>Entry Fee </td>
+              <td>:</td>
+              <td>{{data.game.entryFee}}</td>
+            </tr>
+            <tr>
+              <td>Per Kill </td>
+              <td>:</td>
+              <td>{{data.game.perKill}}</td>
+            </tr>
+            <tr>
+              <td>Map </td>
+              <td>:</td>
+              <td>{{data.game.map}}</td>
+            </tr>
+
+          </table>
+          <div class="mb-2 text-center">
+            <progressbar max="{{data.game.spot}}" [value]="data.joinspot" type="info" [striped]="true" [animate]="true">
+            </progressbar>
+            <small class="">Joined {{data.joinspot}} player </small>
+          </div>
+
+          <table class="d-flex justify-content-center">
+            <tr>
+              <td>
+                <button class="btn btn-sm btn-dark "
+                  (click)="openModal(template);joinPlayerList(data.game.gameid)">Player List</button>
+              </td>
+              <td class="text-center">
+                <a href="https://www.youtube.com/channel/UCQf0eVadK45atH3spFcAU9A?view_as=subscriber">
+                  <button class="btn btn-danger  btn-sm ">&nbsp;&nbsp;<i class="fa fa-eye ">
+                    </i> &nbsp;&nbsp;Live&nbsp;&nbsp;</button>
+
+
+
+
+                </a>
+              </td>
+              <td>
+                <button class="btn btn-sm  btn-info "
+                  (click)="getRoomIdAndPassword(data.game.gameid);openModal(roomDetails);">Room Details</button>
+              </td>
+
+            </tr>
+          </table>
+
+
+
+
+
+
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3"></div>
+  </div>
+
+</div>
+
+<!--player list modal-->
+
+<ng-template #template>
+  <div class="modal-header">
+    <h6 class="modal-title pull-left">Joined Player</h6>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <table class="table table-warning text-center table-sm ">
+      <tr class="table-dark">
+        <td># SL</td>
+        <td>Players</td>
+      </tr>
+      <tr *ngFor="let data of joinedPlayer;index as i">
+        <td>{{i+1}}</td>
+        <td [innerHTML]='data.playername' class="text-left"></td>
+      </tr>
+    </table>
+
+
+  </div>
+</ng-template>
+<!--room details modal-->
+<ng-template #roomDetails>
+  <div class="modal-header">
+    <h6 class="modal-title pull-left">Room Details</h6>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body text-center">
+    <div class="text-danger text-center">
+      <strong>Don't share Room Id And Password with anyone</strong><br>
+      <small>Otherwise your account will be BLOCK permanently</small>
+    </div>
+    <div class="jumbotron" *ngIf="roomid">
+      <h4 class="text-success">Room Id : {{roomid}}</h4>
+      <h4 class="text-primary"> Password : {{pass}}</h4>
+    </div>
+    <div class="jumbotron bg-blue-deep" *ngIf="!roomid">
+      <h4 class="text-danger">Only joined player get room details</h4>
+    </div>
+
+  </div>
+</ng-template>

@@ -1,0 +1,39 @@
+.profileImage
+{
+   
+    border-radius: 50px;
+    height: 100px;
+    width: 100px;
+    object-fit: cover;
+    border: 2px solid black;
+}
+
+.card-header
+{
+   background-color: white;
+    border:none;
+    padding: 0px;
+    
+}
+.card-footer
+{
+   border-top:1px solid gray;
+  border-bottom: 1px  solid gray;
+   background-color: rgb(58, 62, 63);
+    padding: 0px;
+    color: beige;
+
+}
+.card{
+    border: none;
+   
+  }
+  .card-body
+  {
+      padding: 1px;
+  }
+
+.bg-own
+{
+    background-color:rgb(216, 181, 250);
+}

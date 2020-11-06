@@ -1,0 +1,103 @@
+/* You can add global styles to this file, and also import other style files */
+
+.bg-blue
+{
+  background-color: #3aafa9;
+}
+.text-blue
+{
+    color:#3aafa9;
+}
+.bg-blue-dark
+{
+    color: #45a29e;
+}
+.bg-darky
+{
+    background-color: #45a29e;
+}
+
+.bg-blue-light
+{
+    color: #def2f1;
+}
+.bg-blue-deep{
+    background-color: #1f2833;
+}
+.bg-lgray
+{
+    background-color: rgb(233, 233, 233);
+}
+.bg-bg-light
+{
+ background-color :#def2f1;
+}
+input.ng-invalid.ng-touched
+{
+    border: 1px solid red;
+    
+}
+input.ng-valid.ng-touched
+{
+    border: 1px solid green;
+    
+}
+.bg-lightgray
+{
+    background-color: lightgray;
+}
+.rounded-btn
+{
+    border-radius: 25px;
+    background-color: #1f2833;
+    border: 2px solid #45a29e;
+   width: 150px;
+    color: white;
+}
+.rounded-btn:hover
+{
+    border-radius: 25px;
+    background-color: #1f2833;
+    
+   width: 150px;
+    color: #45a29e;
+}
+.rounded-div
+{
+   padding: 50px;
+   border-radius: 20px;
+}
+.circle-image
+{
+    height: 50px;
+    width: 50px;
+    object-fit: cover;
+    border-radius: 100%;
+    border: 1px solid black;
+}
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+.mt
+{
+    margin-top: 55px;
+}
+.cursor{
+    cursor: pointer;
+}
+.image-loaded + .spi {
+    display:none;
+  }
+  .text-name
+  {
+      color: blue;
+      font-weight: 600;
+  }
+  .red{
+      color:blue;
+     font-weight: bold;
+      font-size: 10px;
+  }
+  .blue{
+      color: rgb(14, 71, 194);
+      font-weight: bold;
+  }

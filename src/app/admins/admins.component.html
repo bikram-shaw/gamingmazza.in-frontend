@@ -1,0 +1,24 @@
+<div class="container-fluid  bg-info h-100" *ngIf="hidelogin">
+   <div class="jumbotron text-center bg-dark text-white">
+    <h1>GamingMazza</h1>
+    <h4 class="text-danger">Admin Login Panel</h4>
+   </div>
+   <div class="row ">
+       <div class="col-sm-3"></div>
+       <div class="col-sm-6 ">
+        
+            <b>Secret Key:</b>
+            <input class="form-control" type="text" [(ngModel)]="username">
+            <b>Password :</b>
+            <input class="form-control" type="password"  [(ngModel)]="password">
+            
+            <input type="submit" class="btn btn-outline-light pull-right mt-3 mb-5" value=" Admin login " (click)="adminlogin();">
+       
+       </div>
+       <div class="col-sm-3"></div>
+       
+      
+   </div>
+
+</div>
+<router-outlet></router-outlet>

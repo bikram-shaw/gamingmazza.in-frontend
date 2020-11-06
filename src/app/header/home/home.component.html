@@ -1,0 +1,183 @@
+<div class="container-fluid ">
+
+    <div class="row mt-2 bg-bg-light">
+        <div class="col-md-3 mt-1 ">
+            <div class="cursor" routerLink="profile">
+
+
+                <img src="{{loginUser.profileimage}}"
+                    onerror="this.onerror=null;this.src='../assets/login.png'" class="float-left mr-2 circle-image"
+                    height="50px">
+                <table class="">
+                    <tr>
+                        <td><b>{{loginUser.name}}</b></td>
+                    </tr>
+                    <tr>
+                        <td><small>@{{loginUser.game}}</small></td>
+                    </tr>
+                </table>
+                <small></small>
+            </div>
+        </div>
+        <div class="col-md-5 mt-2 ">
+            <form [formGroup]="userPost" (ngSubmit)="onSubmitUserPost()">
+                <div class="btn btn-outline-dark" data-toggle="collapse" href="#collapsePost">
+                    <b >Create Post</b>
+                </div>
+                <div class="btn btn-outline-danger  float-right" >
+                  <a  href="https://www.youtube.com/channel/UCQf0eVadK45atH3spFcAU9A?view_as=subscriber">
+                  <b class="text-danger">YouTube</b></a>
+              </div>
+                <!--User Post form-->
+
+                <div class=" textarea collapse" id="collapsePost">
+                    <textarea class="form-control" rows="3" id="comment" placeholder="Write something..."
+                        formControlName="description"></textarea>
+
+                    <div class="mt-2">
+
+                        <div class="d-flex ml-auto bg-blue-deep p-1  ">
+                            <b class="text-success">{{successSms}}</b>
+                            <b class="text-danger">{{failedSms}}</b>
+                            <div class="image-upload ml-auto mr-4 ">
+                                <label for="file-input">
+                                    <i class="fa fa-camera "></i>
+                                </label>
+
+                                <input id="file-input" (click)="onSelectImage()"type="button" accept="image/*" #img
+                            />
+
+                            </div>
+                            <button class="btn rounded-btn mybtn " type="submit" *ngIf="postSpinner">Post</button>
+                            <small class="spinner-border text-primary ml-4 mr-3" *ngIf="!postSpinner"></small>
+
+                        </div>
+                        <!--preview image section-->
+                        <div class="text-center bg-bg-light" *ngIf="selectImage">
+                            <img [src]='postImage' height="100px" width="100px">
+                        </div>
+
+
+                    </div>
+                </div>
+            </form>
+
+        </div>
+        <div class="col-md-4">
+
+        </div>
+    </div>
+    <!--Host tournament-->
+
+    <!--winners list-->
+
+    <div class="row bg-dark mt-1">
+        <div class="col-md-12 p-0">
+
+            <marquee>
+                <table class="text-center ">
+
+                    <tr>
+
+                        <td *ngFor="let data of winnerslist">&nbsp;&nbsp;<span class="text-white">{{data.playername}} </span> <span class="text-warning"> win rs - {{data.amount}}</span>&nbsp;&nbsp;
+                            </td>
+
+
+                    </tr>
+
+
+                </table>
+            </marquee>
+        </div>
+    </div>
+
+
+
+
+    <div class="search-results" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50"
+        (scrolled)="onScroll()">
+
+        <div class="row bg-lgray ">
+
+            <div class="col-md-3">
+
+            </div>
+
+            <div class="col-md-6 mt-3">
+
+                <!--User post Card-->
+
+                <div class="card mb-3" *ngFor="let post of PostData;index as i">
+
+                    <div class="card-header ">
+
+
+                        <div class="user-de" (click)="userProfile(post.userid)">
+                            <img src="{{post.profilepic}}"
+                                onerror="this.onerror=null;this.src='../assets/login.png'"
+                                class="float-left mr-2 ml-1 mt-1 circle-image">
+                            <b>{{post.name}}</b>
+                        </div><br>
+                        <small>{{post.date}}</small>
+
+
+
+
+                    </div>
+
+                    <div class="card-body mt-2">
+                        <p style="white-space: pre-wrap;" class="ml-1 "  [innerHTML]="post.description | shortdescription">
+
+                        </p>
+                        <div *ngIf="">
+                            liked
+                        </div>
+                        <div *ngIf="post.image?true:false">
+
+                            <img (load)="$event.target.classList.add('image-loaded')" src="{{post.image}}" alt="{{post.image}}" onerror="this.style.display='none'"
+                                (click)="openLightbox(post.image,post.likes,post.dislikes)" class="img-fluid cursor"
+                                width="100%">
+                                <img class="spi  w-100"src="../assets/loader.gif"/>
+
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <ul class="nav nav-pills nav-justified">
+                            <li class="nav-item ">
+                                <a class="nav-link right-border">
+                                    <i class='fa fa-thumbs-up  {{post.likeStatus}}'
+                                        (click)="onClickLike(post.postid,post.likeStatus,i)"></i>
+
+                                    <sup *ngIf="post.likes?true:false">{{post.likes}}</sup></a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link right-border"><i class='fa fa-thumbs-down  {{post.dislikeStatus}}'
+                                        (click)="onClickDislike(post.postid,post.dislikeStatus,i)"></i>
+                                    <sup class=" " *ngIf="post.dislikes?true:false">{{post.dislikes}}</sup></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link " (click)="onClickComment(i)" routerLink="../comment">
+                                    <small class="mr-2" style="color:gray;font-size: 15px;"><i class="fa fa-comment"></i></small>
+                                    <sup class=" " *ngIf="post.comments?true:false">{{post.comments}}</sup></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+        <!--end of row-->
+    </div>
+
+        <div class="row bg-lgray" *ngIf="load">
+            <div class="col-sm-12 text-center">
+                <small><b>Loading &nbsp;</b></small><img src="../assets/load.gif">
+            </div>
+        </div>
+        <div class="row bg-lgray " *ngIf="nomorepost">
+            <div  class=" col-sm-12 text-center mb-2"><br>
+                <b class="text-danger ">No More Post</b>
+            </div>
+        </div>
+
+    </div>

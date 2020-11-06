@@ -1,0 +1,78 @@
+<div class="container-fluid">
+
+    <div class="row ">
+        <div class="col-sm-12 text-center">
+            <div class="jumbotron">
+                <h3 class="text-danger">Please enter winners details very carefully</h3>
+            </div>
+        </div>
+       
+    </div>
+    <div class="row mb-3">
+
+        <div class="col-sm-6">
+
+            <table class="table table-striped text-center">
+                <thead class="table-danger table-bordered">
+                    <th>userid</th>
+                    <th>gameid</th>
+                    <th>player name</th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of joinPlayerdata;index as i">
+                        <td>{{data.userid}}</td>
+                        <td>{{data.gameid}}</td>
+                        <td><b>{{data.playername}}</b></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-sm-6 d-flex justify-content-center" *ngIf="res">
+            <div class="jumbotron">
+                <h4 class="text-center text-danger">Don't refresh the page</h4>
+                <form [formGroup]="resultForm" (ngSubmit)="onSubmitResultDetails()" #resultFor>
+                    <table class="table">
+                        <tr class="bg-primary">
+                            <td><input type="text" [(ngModel)]="joinPlayerdata[i].userid" formControlName="userid"
+                                    class="form-control text-dark"></td>
+                            <td><input type="text" [(ngModel)]="joinPlayerdata[i].playername"
+                                    formControlName="playername" class="form-control text-dark"></td>
+                        </tr>
+                        <tr class="bg-warning">
+                            <td>Game Id :</td>
+                            <td><input type="text" [(ngModel)]="joinPlayerdata[i].gameid" class="form-control"
+                                    formControlName="gameid"></td>
+                        </tr>
+                        <tr>
+                            <td>Kill</td>
+                            <td><input type="text" placeholder="kill" class="form-control" formControlName="kill"></td>
+                        </tr>
+                        <tr>
+                            <td>Amount :</td>
+                            <td><input type="text" placeholder="Amount" class="form-control" formControlName="amount">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Status :</td>
+                            <td><select class="form-control" formControlName="status">
+                                    <option value="win">Win</option>
+                                    <option value="lose">Lose</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </table>
+                    <b class="pull-left bg-warning" *ngIf="msg">{{msg}}</b>
+                    <button class="btn btn-info pull-right" type="submit" *ngIf="resultForm.valid">Submit</button>
+                </form>
+            </div>
+
+        </div>
+        <div class="col-sm-6 d-flex justify-content-center" *ngIf="!res">
+            <div class="jumbotron  ">
+                <h1 class="text-danger">Final Submission</h1>
+                <button class="btn btn-outline-danger  mt-4" (click)="ResultComplete()">Click to complete</button>
+            </div>
+        </div>
+
+    </div>
+</div>

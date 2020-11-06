@@ -1,0 +1,19 @@
+.card
+{
+    border:2px solid rgb(11, 138, 131);
+}
+.wallet
+{
+    height: 40px;
+    width:40px;
+   
+}
+.rupee
+{
+    height: 20px;
+    width:20px;
+}
+.icon
+{
+    font-size: 25px;
+}

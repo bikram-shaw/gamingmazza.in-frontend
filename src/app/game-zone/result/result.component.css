@@ -1,0 +1,21 @@
+.bg-color
+{
+    background-color: rgb(166, 211, 253);
+}
+.t td{
+    
+    text-align: center;
+    
+}
+.mod
+{
+    border: 2px solid white;
+    border-radius: 5px;
+   
+}
+.image
+{
+    height: 20px;
+    width: 20px;
+
+}

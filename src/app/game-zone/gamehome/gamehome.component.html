@@ -1,0 +1,257 @@
+<div class="container-fluid mt bg-blue-deep h-100">
+  <div class="row d-flext justify-content-center bg-dark">
+    <marquee>
+      <b class=" p-3 text-danger" role="alert">
+        Please read <strong (click)="openModal(tc)" class="text-primary">Terms & Conditions</strong> very carefully before joining match
+      </b>
+    </marquee>
+
+  </div>
+  <div class="row bg-blue-deep mt-2">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+      <div *ngIf="noActiveGame" class="text-center jumbotron">
+        <h4 class="text-danger">{{noActiveGame}}</h4>
+        <p class="text-success">comming soon...</p>
+      </div>
+      <div class="card mb-2" *ngFor="let data of gamesdata; index as i">
+        <img (load)="$event.target.classList.add('image-loaded')" class="card-img-top img-fluid"
+          src="{{url}}/{{data.game.image}}" alt="{{data.game.image}}">
+        <img class="spi" src="../assets/loader.gif" />
+        <div class="card-body">
+          <h4 class="card-title text-info">#{{data.game.gameid}}&nbsp;{{data.game.mode}}&nbsp;MATCH</h4>
+          <table>
+            <tr class="font-weight-bold text-danger">
+              <td>Time :</td>
+              <td>{{data.game.date |date}} at {{data.game.time}}</td>
+            </tr>
+            <tr>
+              <td>Winning Prize :</td>
+              <td>{{data.game.winAmount}}</td>
+            </tr>
+            <tr>
+              <td>Entry Fee :</td>
+              <td>{{data.game.entryFee}}</td>
+            </tr>
+            <tr>
+              <td>Per Kill :</td>
+              <td>{{data.game.perKill}}</td>
+            </tr>
+            <tr>
+              <td>Map :</td>
+              <td>{{data.game.map}}</td>
+            </tr>
+
+          </table>
+          <div class="mb-2 text-center">
+            <progressbar max="{{data.game.spot}}" [value]="data.joinspot" type="info" [striped]="true" [animate]="true">
+              <i>{{data.joinspot}} / {{data.game.spot}}</i></progressbar>
+            <small class=""><b>Only {{data.game.spot-data.joinspot}} spots left</b></small>
+          </div>
+          <table class="table table-sm">
+            <tr>
+
+              <td>
+                <button class="btn btn-sm btn-outline-dark "
+                  (click)="openModal(template);joinPlayerList(data.game.gameid)">Player List</button>
+              </td>
+              <td>
+                <button class="btn btn-sm btn-outline-info" (click)="openModal(tc)">&nbsp;&nbsp;T&C&nbsp;&nbsp;</button>
+              </td>
+              <td>
+                <button class="btn  btn-success btn-sm" *ngIf="data.game.spot-data.joinspot?true:false"
+                  (click)="openModal(joinmodel);getWallet(data.game.gameid,data.game.entryFee);gameMode(data.game.mode)">Join</button>
+                <button class="btn  btn-danger btn-sm" *ngIf="!(data.game.spot-data.joinspot?true:false)" disabled>Party
+                  Full</button>
+              </td>
+
+            </tr>
+          </table>
+
+
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3"></div>
+  </div>
+</div>
+<!--player list modal-->
+
+<ng-template #template>
+  <div class="modal-header ">
+    <h6 class="modal-title pull-left">Joined Player</h6>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <table class="table table-dark text-center table-sm ">
+      <tr class="">
+        <td># SL</td>
+        <td>Players</td>
+      </tr>
+      <tr *ngFor="let data of joinedPlayer;index as i">
+        <td>Team {{i+1}}:</td>
+        <td [innerHTML]='data.playername' class="text-left"></td>
+      </tr>
+    </table>
+
+
+  </div>
+</ng-template>
+<!--join model-->
+<ng-template #joinmodel>
+  <div class="modal-header">
+
+    <b class="modal-title pull-left">Enter your appropriate gaming name</b>
+
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+
+  </div>
+
+  <div class="modal-body">
+
+    <!--for solo members-->
+    <div *ngIf="gamesmode=='SOLO'">
+      <h4 class="text-primary">{{enterGameName}}</h4><br>
+    <input type="text" [(ngModel)]="enterGameName" class="form-control" placeholder="Enter your gaming name.."
+     ><br>
+      <!-- For squad members-->
+    </div >
+      <div *ngIf="gamesmode=='SQUAD'">
+        <small class="text-danger">Enter Your Squad members gaming name -</small><br><br>
+        <input type="text" [(ngModel)]="enterGameName" class="form-control" placeholder="Player 1 "
+     ><br>
+      <input type="text" [(ngModel)]="enterGameName1" class="form-control" placeholder="Player 2 "
+      ><br>
+      <input type="text" [(ngModel)]="enterGameName2" class="form-control" placeholder="Player 3 "
+      ><br>
+      <input type="text" [(ngModel)]="enterGameName3" class="form-control" placeholder="Player 4 "
+      ><br>
+      </div>
+       <!-- For DUO members-->
+       <div *ngIf="gamesmode=='DUO'">
+        <small class="text-danger">Enter players gaming name -</small><br><br>
+        <input type="text" [(ngModel)]="enterGameName" class="form-control" placeholder="Player 1 "
+        ><br>
+        <input type="text" [(ngModel)]="enterGameName1" class="form-control" placeholder="Player 2 "
+      ><br>
+       </div>
+      <alert type="success" *ngIf="joinGame">
+        <strong [innerHTML]="joinGame"></strong>
+      </alert>
+    <h4 class=" text-dark pull-left"><img class="wallet" src="../../assets/wallet.png"><img class="rupee"
+        src="../../assets/icon/money.svg">{{walletBal}}</h4><br>
+
+    <button class="btn btn-outline-success  pull-right" (click)="joinMatch()">Join</button>
+  </div>
+
+</ng-template>
+<!--T&C modal-->
+<ng-template #tc>
+  <div class="modal-header bg-danger">
+    <p class="modal-title pull-left text-white">Terms & Conditions</p>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <accordion [isAnimated]="true">
+      <accordion-group heading="English">
+        <ul>
+          <li>Enter your appropriate gaming name with the same fonts and design.otherwise you may not be able to get the
+            winning prize and refund will not provided in such that cases</li>
+          <li>Room ID and Password will be shared in our official website(www.gamingmazza.in) ongoing section.</li>
+          <li>Room ID and password will be shared before 10-15 minitues of starting the match.So make sure you login
+            before that time and grab ID and password</li>
+          <li>If you are caught sharing your romm ID and Password then your account may be terminated and your all
+            winning may be lost.so be carefull on that.</li>
+          <li>If you are fail to join to match start time then we are not responsible for that</li>
+          <li>Hacking and scripting is highly prohibited.If you caught to doing so,your acc will be permanently banned
+            and your winning will be lost and we take some neccesary step against you.</li>
+          <li>Teaming is not allowed.If you are caught to doing so,the same action take against you</li>
+          <li>You have to upto 20 level player to join any match.otherwise you will be get kick out or termineted</li>
+          <li>Note that the entry fee is individual and not for any team or squad.Each member has to pay the jonning
+            ammount</li>
+          <li>Don't keep changing the position on custom room.If you are caught to do so you will be terminated</li>
+
+          <li>After joining a match you can't cancel the registration.so keep that on mind</li>
+
+        </ul>
+      </accordion-group>
+      <accordion-group heading="Hindi">
+        <ul>
+          <li>एक ही फोंट और डिजाइन के साथ अपना उचित गेम नाम दर्ज करें। यदि आप विजयी पुरस्कार प्राप्त करने में
+            सक्षम नहीं होंगे और उस मामले में धनवापसी प्रदान नहीं की जाएगी।</li>
+          <li>सभी हथियारों की अनुमति है और खेल अंतरराष्ट्रीय नियमों पर चल रहा है</li>
+          <li>रूम आईडी और पासवर्ड हमारी आधिकारिक वेबसाइट (www.gamingmazza.in) पर चल रहे अनुभाग में साझा किए जाएंगे।</li>
+          <li>मैच शुरू होने के 10-15 मिनट पहले रूम आईडी और पासवर्ड साझा किया जाएगा। सुनिश्चित करें कि आप उस समय से पहले
+            लॉगिन करें और आईडी और पासवर्ड ले लें</li>
+          <li>यदि आप अपना रोम आईडी और पासवर्ड साझा करते हुए पकड़े जाते हैं तो आपका खाता समाप्त हो सकता है और आपकी सभी
+            जीती हुई अमाउंट
+            काट लिया जायेगा।</li>
+          <li>यदि आप मैच शुरू होने के समय में शामिल होने में विफल रहते हैं तो हम इसके लिए जिम्मेदार नहीं हैं</li>
+          <li>
+            हैकिंग और स्क्रिप्टिंग अत्यधिक निषिद्ध है। यदि आप ऐसा करने के लिए पकड़े गए हैं, तो आपके ACCOUNT पर स्थायी
+            रूप से प्रतिबंध लगा दिया जाएगा और आपकी जीती हुई अमाउंट नहीं मिलेगा और हम आपके खिलाफ कुछ नेक कदम उठाते हैं।
+          </li>
+          <li>
+            टीमिंग की अनुमति नहीं है। यदि आप ऐसा करने के लिए पकड़े जाते हैं, तो वही कार्रवाई आपके खिलाफ होती है</li>
+          <li>किसी भी मैच में शामिल होने के लिए आपको 20 लेवल तक का खिलाड़ी होना चाहिए। इससे पहले कि आपको किक आउट या
+            टर्मिनेट किया जाएगा</li>
+          <li>ध्यान दें कि प्रवेश शुल्क अलग-अलग है और किसी भी टीम या स्क्वाड के लिए नहीं है। किसी भी सदस्य को जन्नत का
+            भुगतान करना होगा</li>
+          <li>अगर आपको कस्टम रूम पर लगातार स्थिति बदलते दिखे, तो आपको बाहर निकाल दिया जाएगा</li>
+
+          <li>एक मैच में शामिल होने के बाद आप पंजीकरण रद्द नहीं कर सकते। ऐसा ध्यान रखें</li>
+
+
+        </ul>
+      </accordion-group>
+      <accordion-group heading="Bengali">
+        <ul>
+
+          <li>একই হরফ এবং ডিজাইনের সাথে আপনার হুবুহু গেমের নাম লিখুন নাহোল আপনি বিজয়ী পুরষ্কারটি পেতে সক্ষম হতে পারবেন
+            না এবং রিফান্ড এমন ক্ষেত্রে সরবরাহ করা হবে না</li>
+          <li>সমস্ত অস্ত্র অনুমোদিত এবং গেমটি আন্তর্জাতিক নিয়মে চলছে</li>
+          <li>কক্ষ আইডি এবং পাসওয়ার্ড আমাদের অফিসিয়াল ওয়েবসাইটের (www.gamingmazza.in) চলমান বিভাগে ভাগ করা হবে।</li>
+          <li>রুম আইডি এবং পাসওয়ার্ডটি ম্যাচ শুরুর 10-15 মিনিট আগে দেওয়া হবে সুতরাং নিশ্চিত হয়ে নিন যে আপনি সেই সময়ের
+            আগে লগইন করে আইডি এবং পাসওয়ার্ড দখল করুন</li>
+          <li>আপনি যদি কক্ষ আইডি এবং পাসওয়ার্ড কারোর সাথে যদি ভাগ করেন তবে আপনার অ্যাকাউন্টটি বন্ধ হয়ে যেতে পারে এবং
+            আপনার সমস্ত বিজয়ী হারিয়ে যেতে পারে তাই যত্নবান থাকুন।</li>
+          <li>আপনি যদি ম্যাচ শুরুর সময়টিতে যোগ দিতে ব্যর্থ হন তবে আমরা এর জন্য দায়বদ্ধ নই</li>
+          <li>হ্যাকিং এবং স্ক্রিপ্টিং অত্যন্ত নিষিদ্ধ। যদি আপনি এটি করতে ধরা পড়ে থাকেন তবে আপনার ACCOUNT স্থায়ীভাবে
+            নিষিদ্ধ হয়ে যাবে এবং আপনার জয়ের ক্ষতি হবে </li>
+          <li>দলবদ্ধ হওয়ার অনুমতি নেই আপনি যদি এটি করতে ধরা পড়ে থাকেন তবে আপনার বিরুদ্ধে একই পদক্ষেপ নেওয়া হবে</li>
+          <li>যে কোনও ম্যাচে যোগদানের জন্য আপনার 20 স্তরের খেলোয়াড় থাকতে হবে নাহলে আপনাকে কিক আউট করে দেওয়া হবে</li>
+          <li>নোট করুন যে প্রবেশ ফি পৃথক এবং কোনও দল বা স্কোয়াডের জন্য নয় প্রত্যেক সদস্যকে জোনিংয়ের পরিমাণ প্রদান
+            করতে হবে</li>
+          <li>কাস্টম রুমে অবস্থান বার বার পরিবর্তন করবেন না I যদি আপনি এটি করতে ধরা পড়ে তবে আপনাকে বের করে দেওয়া হবে
+          </li>
+
+          <li> মনে রাখবেন কোনও ম্যাচে যোগদানের পরে আপনি নিবন্ধকরণ বাতিল করতে পারবেন না </li>
+
+        </ul>
+      </accordion-group>
+      <accordion-group heading="Contact Us">
+
+        <p> <i class="fa fa-whatsapp text-success icon"></i> &nbsp;<b>8293253017</b></p>
+        <p> <i class="fa fa-envelope text-danger icon"></i> &nbsp;<b>gamingmazza0@gmail.com</b> </p>
+        <p> <i class="fa fa-envelope text-danger icon"></i> &nbsp;<b>rowdy7329@gmail.com</b> </p>
+
+        <div class="col-sm-12 text-center jumbotron mb-0">
+          <p>Follow Us</p>
+         <a class="btn btn-info cursor mr-2" href='https://www.facebook.com/gamingmazza/'>&nbsp;<i class="fa fa-facebook"></i>&nbsp;</a>
+         <a class="btn btn-danger cursor" href='https://m.youtube.com/channel/UCQf0eVadK45atH3spFcAU9A?view_as=subscriber'>
+          <i class="fa fa-youtube"></i></a>
+
+      </div>
+      </accordion-group>
+    </accordion>
+
+
+  </div>
+
+</ng-template>
